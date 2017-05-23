@@ -1,0 +1,6 @@
+
+# ignore compiled files 
+*.pyc
+
+*.rar
+*.swp

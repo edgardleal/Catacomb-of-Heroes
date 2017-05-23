@@ -6,7 +6,7 @@
 #    \ \__\    \ \__\ \__\ \__\ \__\   
 #     \|__|     \|__|\|__|\|__|\|__|   
 
-import libtcodpy as libtcod
+import tcod as libtcod
 
 from tile import Tile
 import constant

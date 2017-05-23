@@ -7,7 +7,7 @@
 #     \|_______|\|_______|\|__|     \|__|\|__|     \|_______|\|__| \|__|\|_______|\|__| \|__|    \|__| |\_________\
 #                                                                                                      \|_________|
 
-import libtcodpy as libtcod
+import tcod as libtcod
 
 import constant
 import game_logic 

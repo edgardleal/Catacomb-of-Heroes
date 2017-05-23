@@ -6,7 +6,7 @@
 #    \ \_______\ \_______\ \________\ \_______\ \_______\  \ \__\
 #     \|_______|\|_______|\|________|\|_______|\|_______|   \|__|
 
-import libtcodpy as libtcod
+import tcod as libtcod
 import pygame
 
 import constant

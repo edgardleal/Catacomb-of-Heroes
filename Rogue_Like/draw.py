@@ -7,7 +7,7 @@
 #     \|_______|\|__|\|__|\|__|\|__|\|____________|
 
 # Imports
-import libtcodpy as libtcod
+import tcod as libtcod
 import pygame
 
 from object import *
