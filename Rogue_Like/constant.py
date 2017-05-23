@@ -8,7 +8,7 @@
 #                                   \|_________|                                                                                                                              
 
 # Imports
-import libtcodpy as libtcod
+import tcod as libtcod
 import pygame
 pygame.init()
 

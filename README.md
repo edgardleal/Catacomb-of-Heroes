@@ -1,5 +1,5 @@
 # Catacomb-of-Heroes
-Roguelike game written in pygame and libtcodpy
+> [Roguelike](https://en.wikipedia.org/wiki/Roguelike) game written in pygame and libtcodpy
 
 
 ## Setup 
@@ -8,4 +8,4 @@ Roguelike game written in pygame and libtcodpy
 * Install libtcod `python -m pip install libtcod-cffi`
 
 
-[About Roguelike](https://en.wikipedia.org/wiki/Roguelike)
+
