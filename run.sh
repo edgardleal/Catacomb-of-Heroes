@@ -18,6 +18,7 @@ function check_module()
     fi
 }
 
+check_module "pyopengl" "pyopengl"
 check_module "tcod" "libtcod-cffi"
 check_module "pygame"
 cd "$local_path/Rogue_Like"
