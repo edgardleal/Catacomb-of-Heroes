@@ -1,16 +1,19 @@
-#  ________  ________  _____ ______   ________  ________  ________   _______   ________   _________  ________      
-# |\   ____\|\   __  \|\   _ \  _   \|\   __  \|\   __  \|\   ___  \|\  ___ \ |\   ___  \|\___   ___\\   ____\     
-# \ \  \___|\ \  \|\  \ \  \\\__\ \  \ \  \|\  \ \  \|\  \ \  \\ \  \ \   __/|\ \  \\ \  \|___ \  \_\ \  \___|_    
-#  \ \  \    \ \  \\\  \ \  \\|__| \  \ \   ____\ \  \\\  \ \  \\ \  \ \  \_|/_\ \  \\ \  \   \ \  \ \ \_____  \   
-#   \ \  \____\ \  \\\  \ \  \    \ \  \ \  \___|\ \  \\\  \ \  \\ \  \ \  \_|\ \ \  \\ \  \   \ \  \ \|____|\  \  
-#    \ \_______\ \_______\ \__\    \ \__\ \__\    \ \_______\ \__\\ \__\ \_______\ \__\\ \__\   \ \__\  ____\_\  \ 
+#  ________  ________  _____ ______   ________  ________  ________   _______   ________   _________  ________
+# |\   ____\|\   __  \|\   _ \  _   \|\   __  \|\   __  \|\   ___  \|\  ___ \ |\   ___  \|\___   ___\\   ____\
+# \ \  \___|\ \  \|\  \ \  \\\__\ \  \ \  \|\  \ \  \|\  \ \  \\ \  \ \   __/|\ \  \\ \  \|___ \  \_\ \  \___|_
+#  \ \  \    \ \  \\\  \ \  \\|__| \  \ \   ____\ \  \\\  \ \  \\ \  \ \  \_|/_\ \  \\ \  \   \ \  \ \ \_____  \
+#   \ \  \____\ \  \\\  \ \  \    \ \  \ \  \___|\ \  \\\  \ \  \\ \  \ \  \_|\ \ \  \\ \  \   \ \  \ \|____|\  \
+#    \ \_______\ \_______\ \__\    \ \__\ \__\    \ \_______\ \__\\ \__\ \_______\ \__\\ \__\   \ \__\  ____\_\  \
 #     \|_______|\|_______|\|__|     \|__|\|__|     \|_______|\|__| \|__|\|_______|\|__| \|__|    \|__| |\_________\
 #                                                                                                      \|_________|
 
-import tcod as libtcod
+try:
+    import tcod as libtcod
+except:
+    import libtcodpy as libtcod
 
 import constant
-import game_logic 
+import game_logic
 # Things that can move, attack and die are going to be Creature.
 class com_Creature:
 
@@ -22,7 +25,7 @@ class com_Creature:
 
 		self.max_hp = hp
 		self.hp = hp
-		
+
 		self.power = power
 		self.acc = acc
 		self.mpow = mpow
@@ -35,9 +38,9 @@ class com_Creature:
 		target = None
 			# Code here is cheking for a target within melee range that is not self.
 		for obj in obj_list:
-			if (obj is not exclude_obj and 
-				obj.x == x and 
-				obj.y == y and 
+			if (obj is not exclude_obj and
+				obj.x == x and
+				obj.y == y and
 				obj):
 
 				target = obj
@@ -52,9 +55,9 @@ class com_Creature:
 		if exclude_obj:
 			# Code here is cheking for a target within melee range that is not self.
 			for obj in obj_list:
-				if (obj is not exclude_obj and 
-					obj.x == x and 
-					obj.y == y and 
+				if (obj is not exclude_obj and
+					obj.x == x and
+					obj.y == y and
 					obj.creature):
 
 					target = obj
@@ -64,8 +67,8 @@ class com_Creature:
 		else:
 			# Code here is checking for any target including self (for confusing spell or something like this)
 			for obj in obj_list:
-				if (obj.x == x and 
-					obj.y == y and 
+				if (obj.x == x and
+					obj.y == y and
 					obj.creature):
 
 					target = obj
@@ -75,7 +78,7 @@ class com_Creature:
 
 
 	def move(self, GAME_MAP, obj_list, (dx, dy)):
-		
+
 		tile_is_wall = (GAME_MAP[self.owner.x + dx ][self.owner.y + dy].block == True)
 
 		target = self.check_for_creature(obj_list, self.owner.x + dx, self.owner.y + dy, exclude_obj = self.owner)
@@ -110,7 +113,7 @@ class com_Creature:
 		game_logic.Game.game_messages(str(self.name_instance + " attacks " + target.creature.name_instance + " for " + str(damage)) + " damage!", constant.COLOR_WHITE)
 		target.creature.take_damage(damage)
 
-		
+
 
 def death_monster(monster):
 
@@ -131,4 +134,4 @@ class com_AI:
 # TODO class com_Itens:
 
 # Objects that can hold other objects are going to be Container
-# TODO class com_Container:                                                                                                                 
+# TODO class com_Container:
