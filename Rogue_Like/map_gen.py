@@ -1,19 +1,22 @@
-#  _____ ______   ________  ________   
-# |\   _ \  _   \|\   __  \|\   __  \  
-# \ \  \\\__\ \  \ \  \|\  \ \  \|\  \ 
+#  _____ ______   ________  ________
+# |\   _ \  _   \|\   __  \|\   __  \
+# \ \  \\\__\ \  \ \  \|\  \ \  \|\  \
 #  \ \  \\|__| \  \ \   __  \ \   ____\
 #   \ \  \    \ \  \ \  \ \  \ \  \___|
-#    \ \__\    \ \__\ \__\ \__\ \__\   
-#     \|__|     \|__|\|__|\|__|\|__|   
+#    \ \__\    \ \__\ \__\ \__\ \__\
+#     \|__|     \|__|\|__|\|__|\|__|
 
-import tcod as libtcod
+try:
+    import tcod as libtcod
+except:
+    import libtcodpy as libtcod
 
 from tile import Tile
 import constant
 
 
 class Map:
-                                     
+
 	def map_create(self):
 		new_map = [[Tile(False) for y in range (0, constant.MAP_HEIGHT)] for x in range (0, constant.MAP_WIDTH)]
 
@@ -30,7 +33,7 @@ class Map:
 
 		self.map_make_fov(new_map)
 
-		return new_map                            
+		return new_map
 
 	def map_make_fov(self, income_map):
 
