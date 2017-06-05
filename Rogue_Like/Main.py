@@ -2,7 +2,7 @@
 
 '''
 TODO COMMENTS
-dir_x, dir_yself, T_key, Player, creature_list, dead_list, game_map):'''
+'''
 
 # IMPORTS
 	# Third Party
