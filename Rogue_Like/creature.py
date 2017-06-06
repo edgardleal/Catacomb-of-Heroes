@@ -10,7 +10,7 @@ except:
 
 	# My Modules
 import actor
-
+import container
 '''
 Everything that can walk, fight, and die is a creature.
 So, monsters and the player are both creatures.
@@ -21,6 +21,7 @@ class Creature(actor.Actor):
 
 		super(Creature, self).__init__(name_object, x, y, animation)
 		self.is_alive = True
+		self.Container = container.Container(5)
 
 	def init_attributes(self, VIT, STR, DEX, MAG):
 

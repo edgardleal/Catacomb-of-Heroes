@@ -37,7 +37,7 @@ class Assets:
 		self.e_floor_GFX = self.struct_ss.get_image(1, 1, 16, 16, (32,32))[0]
 
 		self.item_ss = Spritesheet("Assets/GFX/Flesh.png")
-		self.S_ITEM = self.item_ss.get_animation(0, 1, 1, 16, 16, (32,32))
+		self.s_item = self.item_ss.get_animation(0, 1, 1, 16, 16, (32,32))
 
 	def load_animations(self):
 

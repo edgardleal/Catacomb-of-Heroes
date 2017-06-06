@@ -20,24 +20,47 @@ class Controller(object):
 	def __init__(self):
 		super(Controller, self).__init__()
 
-	def logic(self, T_key, Player, creature_list, dead_list, game_map):
+		self.bool = False
+
+	def logic(self, T_key, Player, Menu, dead_list, item_list, creature_list, msg_list, game_map):
+
+
 
 		if not T_key == None:
 			key_0, key_1 = T_key
 
 			if Player.turn < 10 and Player.is_alive:
 				if isinstance(key_0, int):
-					self.act_creature(Player, creature_list, T_key, game_map)
-					Player.turn += Player.turn_pass
+					self.act_creature(Player, creature_list, msg_list, T_key, game_map)
+				if isinstance(key_0, str):
+					if key_0 == "OK":
+						item = self.check_item(item_list, Player.x, Player.y)
+						if not item == None:
+							self.grab_item(item, Player, item_list, msg_list)
+						else:
+							self.act_creature(Player, creature_list, msg_list, (0,0), game_map)
+				
+					if key_0 == "NG":
+						# Menu.open = not Menu.open
+						self.bool = not self.bool
+
 		elif Player.turn >= 10:
 			for creature in creature_list:
 				if not isinstance(creature, player.Player):
-					self.enemy_act(creature, creature_list, dead_list, game_map)
+					self.enemy_act(creature, creature_list, msg_list, dead_list, game_map)
 			Player.turn -= 10
 
 
+		Menu.open = self.bool
+		if Menu.open == False:
+			Menu.item_list = []
+		if Menu.open:
+				print "HERE"
+				Menu.i_list(Player)
 
-	def act_creature(self, creature, creature_list, T_dir, game_map):
+
+
+	def act_creature(self, creature, creature_list, msg_list, T_dir, game_map):
 
 		# if not T_dir == None:
 		dir_x, dir_y = T_dir
@@ -46,13 +69,21 @@ class Controller(object):
 
 		target = self.check_creature(creature_list, creature.x+dir_x, creature.y+dir_y, creature)
 
+		act = False
+
 		if target:
-			self.melee_combat(creature, target)
+			self.melee_combat(creature, target, msg_list)
+			act = True
 		elif not is_wall:
 			creature.x += dir_x
 			creature.y += dir_y
+			act = True
+		
+		# This prevents player from loosing a turn trying to walk into a wall
+		if isinstance(creature, player.Player) and act:
+				creature.turn += creature.turn_pass
 
-	def melee_combat(self, attacker, defender):
+	def melee_combat(self, attacker, defender, msg_list):
 		'''
 		DAMAGE CALC
 
@@ -79,7 +110,9 @@ class Controller(object):
 
 		total_dmg = attacker.get_dmg()
 
-		print attacker.name_object + " attacks " + defender.name_object + " for " + str(total_dmg)
+		message = str((attacker.name_object + " attacks " + defender.name_object + " for " + str(total_dmg)))
+
+		msg_list.append((message, (255,255,255))) 
 
 		defender.take_damage(total_dmg)
 
@@ -107,14 +140,51 @@ class Controller(object):
 		if target:
 			return target
 
-	def enemy_act(self, creature, creature_list, dead_list, game_map):
+	def enemy_act(self, creature, creature_list, msg_list, dead_list, game_map):
 		x = libtcod.random_get_int(0, -1, 1)
 		y = libtcod.random_get_int(0, -1, 1)
 
 		T_dir = (x,y)
 
 		if creature.is_alive:
-			self.act_creature(creature, creature_list, T_dir, game_map)
+			self.act_creature(creature, creature_list, msg_list, T_dir, game_map)
 		else:
 			creature_list.remove(creature)
 			dead_list.insert(0, creature)
+
+	def check_item(self, item_list, x, y):
+
+		item = None
+
+		for item in item_list:
+			if item.x == x and item.y == y:
+				return item
+
+	def grab_item(self,  item, creature, item_list, msg_list):
+
+		if creature.Container.used_slots + 1 <= creature.Container.max_slots:
+			creature.Container.inventory.append(item)
+			creature.Container.used_slots += 1
+			item_list.remove(item)
+			message = (str(" " + creature.name_object + " got " + item.name_object + "!"))
+			color = (0, 160, 0)
+
+		else:
+			message = (" Inventory is full. ")
+			color = (0, 160, 0) 
+
+		msg_list.append((message, color))
+
+	def drop_item(self, creature, item, item_list):
+
+		item.x = creature.x
+		item.y = creature.y
+
+		item_list.insert(0, self)
+		creature.Container.inventory.remove(self)
+		creature.Container.used_slots -= 1
+
+		message = str(" " + actor.name_object + " drop " + self.name_object + ".")
+		color = (0, 0, 0)
+
+		msg_list.append((message, color))

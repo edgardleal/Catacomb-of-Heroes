@@ -11,6 +11,9 @@ import controller
 import creature
 import player
 import enemy
+import item
+
+import menu
 '''
 
 '''
@@ -34,8 +37,6 @@ class Game:
 
 		self.msg_list = []
 
-		self.surface = pygame.Surface((800,600))
-
 		# Self Classes
 		self.Assets = Assets
 		self.Map = maps.Maps()
@@ -46,11 +47,18 @@ class Game:
 		self.create_map()
 		self.game_lists()
 
+		# Menu
+		self.I_Menu = menu.Inventory(200, 200)
+
+		# Test
 		self.Player = player.Player("Hero", 1, 1, self.Assets.a_player)
 		self.append_list(self.Player)
 
 		self.Enemy = enemy.Enemy("Rat", 2, 2, self.Assets.a_enemy)
 		self.append_list(self.Enemy)
+
+		self.Item = item.Item("Item", 3, 3, self.Assets.s_item)
+		self.append_list(self.Item)
 
 	def get_input(self, T_key):
 		
@@ -58,7 +66,9 @@ class Game:
 
 	def update(self):
 
-		self.Controller.logic(self.T_key, self.Player, self.creature_list, self.dead_list, self.maps[self.level])
+		self.Controller.logic(self.T_key, self.Player, self.I_Menu,  self.dead_list, self.item_list, self.creature_list, self.msg_list, self.maps[self.level])
+
+		# Last thing to update is the FOV:
 		self.Map.update_fov(self.fov_map, self.Player)
 
 	def draw(self, main_surface):
@@ -67,6 +77,7 @@ class Game:
 		# If I want to have multiple surfaces, in case I want to draw a Menu, or a text box or anything.
 		# I can make multiple of theese and play around.
 		game_surface = pygame.Surface([800, 600]).convert()
+		txt_surf_box = pygame.Surface([800, int(self.Draw.Text.handle_text_height(self.Assets.font_msg) * 3)], pygame.SRCALPHA, 32).convert_alpha()
 
 		# Draw Map:
 		self.Draw.maps(self.maps[self.level], self.map_height, self.map_width, self.fov_map, game_surface,
@@ -81,10 +92,19 @@ class Game:
 		# Draw Creatures:
 		self.Draw.objects(self.creature_list, self.spr_res, game_surface, self.fov_map, self.clock)
 
-		# Draw Menu:
+		# Draw Menu/TextBox:
+		self.Draw.text(self.Assets.font_msg, self.msg_list, txt_surf_box)
+		self.Draw.menu(game_surface, self.I_Menu, self.Assets.font_msg)
 
 		# Draw/Update this surface on screen:
+
+			# Draw Text Surface onto Game Surface:
+		game_surface.blit(txt_surf_box, (0,game_surface.get_height()-txt_surf_box.get_height()))
+
+			# Draw Game Surface onto Main Surface:
 		main_surface.blit(game_surface, (0,0))
+
+			# Then Display/Update.
 		pygame.display.flip()
 		pygame.display.update()
 
@@ -125,5 +145,5 @@ class Game:
 
 			else:
 				self.dead_list.append(obj)
-		# else isinstance(obj, item.Item)
-		# 	self.item_list,append(obj)
+		elif isinstance(obj, item.Item):
+			self.item_list.append(obj)

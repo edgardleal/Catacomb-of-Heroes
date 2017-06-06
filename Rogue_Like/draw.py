@@ -9,6 +9,7 @@ except:
 	import libtcodpy as libtcod
 
 	# My Modules
+import text
 
 '''
 Here I decided to have multiple classes of draw, one for each state, that way I can do "from draw import class".
@@ -19,6 +20,7 @@ class Draw_Game:
 
 	def __init__(self, spr_res):
 		self.spr_res = spr_res
+		self.Text = text.Text()
 
 
 	# TODO gfx
@@ -56,7 +58,6 @@ class Draw_Game:
 	def objects(self, obj_list, spr_res, surface, fov_map, clock):
 		for obj in obj_list:
 			self.obj_draw(obj, spr_res, surface,  fov_map, clock)
-			pass
 
 	def obj_draw(self, obj, spr_res, surface, fov_map, clock):
 
@@ -84,4 +85,25 @@ class Draw_Game:
 
 			surface.blit(obj.animation[obj.sprite_image], (obj.x*spr_res, obj.y*spr_res))
 
-	
+	def text(self, font, msg_list, txt_surf_box):
+
+		self.Text.draw_messages(font, msg_list, 3, txt_surf_box)
+
+	def menu(self, surface, menu, font):
+		if menu.open:
+
+			# TODO surface needs to grey.
+			
+			self.inventory(menu, font)
+			width = (surface.get_width()-menu.surface.get_width())/2
+			height = (surface.get_height()-menu.surface.get_height())/2
+			surface.blit(menu.surface, (width, height))
+		else:
+
+			# TODO surface comes back to normal.
+			pass
+
+
+	def inventory(self, menu, font):
+		if menu.item_list:
+			self.Text.draw_messages(font, menu.item_list, 10, menu.surface, menu.color)
