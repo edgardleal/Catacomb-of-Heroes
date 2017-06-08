@@ -16,7 +16,6 @@ class IO:
 
 		# This are going to be the default key variables.
 		# I believe that is the only way to have a proper "set keys" option is to have them this way.
-
 		self.K_UP = pygame.K_UP
 		self.K_DOWN = pygame.K_DOWN
 		self.K_LEFT = pygame.K_LEFT
@@ -25,7 +24,11 @@ class IO:
 		self.K_OK = pygame.K_RETURN
 		self.K_NG = pygame.K_ESCAPE
 
+		pygame.key.set_repeat(200, 70)
+
 	def handle_input(self):
+
+
 		
 		for event in self.get_events():
 			if event.type == pygame.QUIT:
@@ -43,6 +46,7 @@ class IO:
 		# That's why UP and LEFT are negative.
 
 		T_key = None
+
 
 		# UP/DOWN
 		if event.key == self.K_UP:			

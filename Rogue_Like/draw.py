@@ -89,12 +89,12 @@ class Draw_Game:
 
 		self.Text.draw_messages(font, msg_list, 3, txt_surf_box)
 
-	def menu(self, surface, menu, font):
+	def menu(self, surface, menu, actor, font):
 		if menu.open:
 
 			# TODO surface needs to grey.
 			
-			self.inventory(menu, font)
+			self.inventory(menu, actor.Container, font, menu.select)
 			width = (surface.get_width()-menu.surface.get_width())/2
 			height = (surface.get_height()-menu.surface.get_height())/2
 			surface.blit(menu.surface, (width, height))
@@ -104,6 +104,33 @@ class Draw_Game:
 			pass
 
 
-	def inventory(self, menu, font):
-		if menu.item_list:
-			self.Text.draw_messages(font, menu.item_list, 10, menu.surface, menu.color)
+	# This function will suffer huges changes in future.
+	# A game menu is better displayed with item's graphic and it's name, what it does, and stuff.
+	# For now, I want this just to work. I can polish this later.
+	def inventory(self, menu, container, font, select, bg_color = None):
+
+		if len(container.inventory) <= container.max_slots:
+			to_draw = container.inventory
+		else:
+			to_draw = container.inventory[-container.max_slots:]
+
+		text_height = self.Text.handle_text_height(font)
+
+		start_y = menu.surface.get_height() - (text_height*container.max_slots)
+
+		i = 0
+
+		if not bg_color:
+			bg_color = (255,255,255)
+
+
+		for message in to_draw:
+
+			if select == i:
+				color = (0, 0, 0)
+			else:
+				color = (100, 100, 100)
+				
+
+			self.Text.draw_text(font, menu.surface, (" " + message.name_object + " "), (0, start_y+(i*text_height)), color, bg_color)
+			i += 1

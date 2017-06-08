@@ -57,8 +57,16 @@ class Game:
 		self.Enemy = enemy.Enemy("Rat", 2, 2, self.Assets.a_enemy)
 		self.append_list(self.Enemy)
 
-		self.Item = item.Item("Item", 3, 3, self.Assets.s_item)
+		self.Item = item.Item("Item 1", 3, 3, self.Assets.s_item)
 		self.append_list(self.Item)
+
+
+		self.Item2 = item.Item("Item 2", 3, 3, self.Assets.s_item)
+		self.append_list(self.Item2)
+
+
+		self.Item3 = item.Item("Item 3", 3, 3, self.Assets.s_item)
+		self.append_list(self.Item3)
 
 	def get_input(self, T_key):
 		
@@ -94,7 +102,7 @@ class Game:
 
 		# Draw Menu/TextBox:
 		self.Draw.text(self.Assets.font_msg, self.msg_list, txt_surf_box)
-		self.Draw.menu(game_surface, self.I_Menu, self.Assets.font_msg)
+		self.Draw.menu(game_surface, self.I_Menu, self.Player, self.Assets.font_msg)
 
 		# Draw/Update this surface on screen:
 

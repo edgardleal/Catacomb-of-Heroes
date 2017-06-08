@@ -1,12 +1,14 @@
 # Main
-'''
-TODO COMMENTS	
-'''
+
 
 # IMPORTS
 	# Third Party
 
 	# My modules
+
+'''
+TODO COMMENTS	
+'''
 import manager
 
 if __name__ == "__main__":

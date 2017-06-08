@@ -20,8 +20,6 @@ class Controller(object):
 	def __init__(self):
 		super(Controller, self).__init__()
 
-		self.bool = False
-
 	def logic(self, T_key, Player, Menu, dead_list, item_list, creature_list, msg_list, game_map):
 
 
@@ -29,7 +27,17 @@ class Controller(object):
 		if not T_key == None:
 			key_0, key_1 = T_key
 
-			if Player.turn < 10 and Player.is_alive:
+			if isinstance(key_0, str):
+				if key_0 == "NG":
+					Menu.open = not Menu.open
+
+
+			if Menu.open:
+				self.control_menu(T_key, Menu, Player.Container.inventory)
+
+
+			if Menu.open == False and Player.turn < 10 and Player.is_alive:
+				Menu.select = 0
 				if isinstance(key_0, int):
 					self.act_creature(Player, creature_list, msg_list, T_key, game_map)
 				if isinstance(key_0, str):
@@ -40,9 +48,6 @@ class Controller(object):
 						else:
 							self.act_creature(Player, creature_list, msg_list, (0,0), game_map)
 				
-					if key_0 == "NG":
-						# Menu.open = not Menu.open
-						self.bool = not self.bool
 
 		elif Player.turn >= 10:
 			for creature in creature_list:
@@ -51,18 +56,29 @@ class Controller(object):
 			Player.turn -= 10
 
 
-		Menu.open = self.bool
-		if Menu.open == False:
-			Menu.item_list = []
-		if Menu.open:
-				print "HERE"
-				Menu.i_list(Player)
+	def control_menu(self, T_key, Menu, mylist):
 
+		dir_x, dir_y = T_key
 
+		if isinstance(dir_x, str):
+			if dir_x == "OK" and len(mylist) > 0:
+				# TODO use item
+				print "TODO use " + str(mylist[Menu.select].name_object)
+				pass
+		else:
+			if dir_y > 0:
+				Menu.select += 1
+			elif dir_y < 0:
+				Menu.select -= 1
+
+			if Menu.select < 0:
+				Menu.select = len(mylist) - 1
+
+			if Menu.select > len(mylist)-1:
+				Menu.select = 0
 
 	def act_creature(self, creature, creature_list, msg_list, T_dir, game_map):
 
-		# if not T_dir == None:
 		dir_x, dir_y = T_dir
 
 		is_wall = (game_map[creature.x+dir_x][creature.y+dir_y].wall == True)

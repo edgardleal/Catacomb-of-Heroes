@@ -21,7 +21,7 @@ class Creature(actor.Actor):
 
 		super(Creature, self).__init__(name_object, x, y, animation)
 		self.is_alive = True
-		self.Container = container.Container(5)
+		self.Container = container.Container(9)
 
 	def init_attributes(self, VIT, STR, DEX, MAG):
 

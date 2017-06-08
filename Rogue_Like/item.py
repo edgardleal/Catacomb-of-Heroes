@@ -4,19 +4,11 @@
 
 # My Modules
 from actor import *
-from draw import *
 
+'''
+Everything that is pickable/useble by the player is going to be an item.
 
+For now I don't have any functions that will be shared with Itens.
+'''
 class Item(Actor):
-
-	def init_item(self, obj_list):
-		self.obj_list = obj_list
-
-	# TODO def use_item
-	def drop(self, actor):
-		self.obj_list.insert(0, self)
-		self.x = actor.x
-		self.y = actor.y
-		actor.Container.inventory.remove(self)
-		actor.Container.used_slots -= 1
-		Draw.set_MSG_TO_DRAW(str(" " + actor.name_object + " drop " + self.name_object + "."), (0, 0, 0))
+	pass
