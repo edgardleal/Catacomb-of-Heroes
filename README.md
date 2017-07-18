@@ -8,5 +8,31 @@
 * First of all you need to install python 2.7 ( `python --version` to check current version ) 
 * Install libtcod `python -m pip install libtcod-cffi`
 
+## Classes on code 
+
+```
++--------+
+|Object  |
++--------+
+|        |
++--+-----+
+   ^
+   |
++--+----+          +--------+
+|Actor  +----------+Creature|
++-------+          +--------+
+|       |          |        |
++-------+          +---+--+-+
+                       ^  ^
+                       |  |
+            +--------+ |  |   +--------+
+            |Enemy   | |  |   |Player  |
+            +--------+ |  |   +--------+
+            |        +-+  +---+        |
+            |        |        |        |
+            +--------+        +--------+
+                              
+
+```
 
 
